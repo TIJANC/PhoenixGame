@@ -16,9 +16,9 @@ connectDB();
 
 // CORS configuration
 const corsOptions = {
-  origin: 'https://tijanc.github.io', // Allow your GitHub Pages domain
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed methods
-  allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers
+  origin: 'https://phoenix-game.vercel.app', 
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+  allowedHeaders: ['Content-Type', 'Authorization'], 
   optionsSuccessStatus: 200,
 };
 
