@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 const connectDB = require('./database'); 
 const Combined = require('./combinedModel'); 
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 dotenv.config(); 
 
@@ -12,6 +13,13 @@ const app = express();
 const server = http.createServer(app);
 
 connectDB();
+
+app.use(cors({
+  origin: 'https://tijanc.github.io/PhoenixGame/ResultsPage.html', 
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+  allowedHeaders: ['Content-Type', 'Authorization'], 
+  credentials: true 
+}));
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json()); 
