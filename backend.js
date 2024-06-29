@@ -15,7 +15,7 @@ const server = http.createServer(app);
 connectDB();
 
 app.use(cors({
-  origin: 'https://tijanc.github.io/PhoenixGame/ResultsPage.html', 
+  origin: 'https://tijanc.github.io/PhoenixGame/', 
   methods: ['GET', 'POST', 'PUT', 'DELETE'], 
   allowedHeaders: ['Content-Type', 'Authorization'], 
   credentials: true 
