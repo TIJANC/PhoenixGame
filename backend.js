@@ -16,6 +16,13 @@ connectDB();
 
 app.use(cors());
 
+ const corsOptions = {
+   origin: 'https://tijanc.github.io/PhoenixGame/',
+   optionsSuccessStatus: 200,
+ };
+
+ app.use(cors(corsOptions));
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json()); 
 
@@ -24,7 +31,7 @@ app.get('/', (req, res) => {
 });
 
 // API endpoint to save user info and scores together
-app.post('/api/save-results', async (req, res) => {
+app.post('/api/save-results', cors(corsOptions), (req, res) => {
   const { userInfo, scores } = req.body;
 
   if (!userInfo || !scores) {
