@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCENARIO</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        .background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .bubble {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            animation: rotate 5s linear infinite;
+        }
+
+        .bubble img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .bubble1, .bubble2, .bubble3 {
+            top: 50%;
+            left: 50%;
+            margin-top: -75px;
+            margin-left: -75px;
+        }
+
+        .bubble2 {
+            animation-delay: 1.66s;
+        }
+
+        .bubble3 {
+            animation-delay: 3.33s;
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg) translateX(200px) rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg) translateX(200px) rotate(-360deg);
+            }
+        }
+
+        .select {
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .select option {
+            flex: 1 1 auto;
+            display: block;
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+
+        #bottomText {
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 16px;
+            color: #333;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.5em;
+                text-align: center;
+            }
+
+            .select {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .select option {
+                width: 90%;
+                margin: 5px 0;
+            }
+
+            #ConfirmFaction {
+                display: block;
+                width: 90%;
+                margin: 10px auto;
+                padding: 10px;
+                font-size: 1em;
+            }
+
+            #bottomText {
+                font-size: 14px;
+                padding: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <div class="bubble bubble1">
+            <img src="images/Smart_city.png" alt="Image 1">
+        </div>
+        <div class="bubble bubble2">
+            <img src="images/Post-growth_city.png" alt="Image 2">
+        </div>
+        <div class="bubble bubble3">
+            <img src="images/De-growth_city.png" alt="Image 3">
+        </div>
+    </div>
+    <div>
+        <h1>Seleziona Scenario</h1>
+    </div>
+    <div>
+        <select id="FactionField" class="select">
+            <option value="" disabled selected>Seleziona un'opzione...</option>
+            <option value="City">SMART CITY</option>
+            <option value="Town">POST-GROWTH CITY</option>
+            <option value="Village">DE-GROWTH CITY</option>
+        </select>
+    </div>
+    <button id="ConfirmFaction" disabled>Confirm</button>
+    <div id="bottomText"></div>
+    <script src="frontend.js"></script>
+    <script>
+        const texts = {
+            City: `
+                The “smart city” scenario assumes that more sustainable cities can
+                be achieved by adopting technological and digital solutions that
+                can foster better resource use and reduce emissions. While this
+                change encompasses many aspects of the city, it does not imply
+                a radical departure from current social and economic paradigms,
+                and urbanisation patterns continue to increase.`,
+            Town: `
+                The “post-growth city” scenario acknowledges the necessity
+                to reduce human interferences on the natural environment.
+                Changes in behaviours and lifestyle are deemed more relevant
+                than technology in achieving a greener society. New urban
+                developments are forbidden, and greenery and farming are
+                increasingly introduced in urban spaces.`,
+            Village: `
+                The “de-growth city” scenario is characterised by a strong
+                commitment towards sustainability, in a general context of
+                reduction of the anthropic pressure on nature. Underused urban
+                areas are dismissed, society tends to form smaller communities,
+                and low-tech solutions are favoured over high-tech ones.`
+        };
+
+        document.getElementById('FactionField').addEventListener('change', function() {
+            const selectedOption = this.value;
+            const bottomText = document.getElementById('bottomText');
+            const confirmButton = document.getElementById('ConfirmFaction');
+
+            if (selectedOption) {
+                bottomText.innerHTML = texts[selectedOption].replace(/\n/g, '<br>');
+                confirmButton.disabled = false;
+            } else {
+                bottomText.innerHTML = '';
+                confirmButton.disabled = true;
+            }
+        });
+
+        document.getElementById('ConfirmFaction').addEventListener('click', function() {
+            const faction = document.getElementById('FactionField').value;
+            localStorage.setItem('playerFaction', faction);
+            window.location.href = 'GAME.html';
+        });
+    </script>
+</body>
+</html>

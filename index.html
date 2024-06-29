@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phoenix Game</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url('images/phoenix.gif'); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="color:firebrick">Phoenix Game</h1>
+        <input id="NameField" type="text" placeholder="Enter your name">
+        <button id="ConfirmName">Conferma</button>
+
+        <h1 style="color:firebrick">Instructions</h1>
+        <strong style="color:firebrick" class="text">
+            <pre>
+            Enter your user name, choose your faction and build your city!
+            You will be able to select actions that gives points 
+            toward different aspects of your city.
+            
+            </pre>
+        </strong>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/game.js"></script>
+    <script>
+        document.getElementById('ConfirmName').addEventListener('click', function() {
+            const name = document.getElementById('NameField').value;
+            localStorage.setItem('playerName', name);
+
+            document.body.classList.add('fade-out');
+
+            setTimeout(() => {
+                window.location.href = 'Faction.html';
+            }, 500);
+        });
+    </script>
+</body>
+</html>
