@@ -21,9 +21,9 @@ const c = canvas.getContext('2d');
 const scoreIndicators = document.querySelector('#scoreIndicators');
 
 const backgroundImages = {
-    'City': 'images/Smart_city.png',
-    'Town': 'images/De-growth_city.png',
-    'Village': 'images/Post-growth_city.png'
+    'City': 'Smart_city.png',
+    'Town': 'De-growth_city.png',
+    'Village': 'Post-growth_city.png'
 };
 const playerFaction = localStorage.getItem('playerFaction');
 
