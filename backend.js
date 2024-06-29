@@ -33,7 +33,7 @@ app.get('/', (req, res) => {
 });
 
 // API endpoint to save user info and scores together
-app.post('/api/save-results', async (req, res) => {
+app.post('https://phoenix-game.vercel.app/api/save-results', async (req, res) => {
   const { userInfo, scores } = req.body;
 
   if (!userInfo || !scores) {
