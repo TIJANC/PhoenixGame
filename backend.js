@@ -17,7 +17,7 @@ connectDB();
 app.use(cors());
 
  const corsOptions = {
-   origin: 'https://tijanc.github.io/PhoenixGame/',
+   origin: 'https://tijanc.github.io/PhoenixGame/ResultsPage.html',
    optionsSuccessStatus: 200,
  };
 
