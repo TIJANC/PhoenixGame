@@ -33,7 +33,7 @@ app.get('/', (req, res) => {
 });
 
 // API endpoint to save user info and scores together
-app.post('https://phoenix-game.vercel.app/api/save-results', async (req, res) => {
+app.post('/api/save-results', async (req, res) => {
   const { userInfo, scores } = req.body;
 
   if (!userInfo || !scores) {
@@ -45,7 +45,7 @@ app.post('https://phoenix-game.vercel.app/api/save-results', async (req, res) =>
     await combinedEntry.save();
     res.status(201).json({ message: 'Results saved successfully' });
   } catch (err) {
-    console.error('Error saving results:', err); 
+    console.error('Error saving results:', err);
     res.status(500).json({ message: 'Server error', error: err.message });
   }
 });
