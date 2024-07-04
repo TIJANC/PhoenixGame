@@ -57,7 +57,7 @@
 
   const scores = JSON.parse(localStorage.getItem('scores'));
 
-  fetch('https://phoenix-game.vercel.app/api/save-results', {
+  fetch('https://phoenix-game.vercel.app/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
