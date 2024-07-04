@@ -16,7 +16,7 @@ connectDB();
 
 // CORS configuration
 const corsOptions = {
-  origin: 'https://phoenix-game.vercel.app', 
+  origin: 'https://phoenix-game.vercel.app/', 
   methods: ['GET', 'POST', 'PUT', 'DELETE'], 
   allowedHeaders: ['Content-Type', 'Authorization'], 
   optionsSuccessStatus: 200,
@@ -33,7 +33,7 @@ app.get('/', (req, res) => {
 });
 
 // API endpoint to save user info and scores together
-app.post('https://phoenix-game.vercel.app', async (req, res) => {
+app.post('https://phoenix-game.vercel.app/', async (req, res) => {
   const { userInfo, scores } = req.body;
 
   if (!userInfo || !scores) {
