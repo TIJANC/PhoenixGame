@@ -44,39 +44,39 @@
     <script src="charts.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const name = localStorage.getItem('playerName');
-            const faction = localStorage.getItem('playerFaction');
-            const scenaryIndex = {
-                'City': 'Smart City',
-                'Town': 'Post-growth City',
-                'Village': 'De-growth City'
-            };
-            const scenary = scenaryIndex[faction];
+  const name = localStorage.getItem('playerName');
+  const faction = localStorage.getItem('playerFaction');
+  const scenaryIndex = {
+    'City': 'Smart City',
+    'Town': 'Post-growth City',
+    'Village': 'De-growth City'
+  };
+  const scenary = scenaryIndex[faction];
 
-            const userInfo = `${name} in ${scenary}`;
-            
-            const scores = JSON.parse(localStorage.getItem('scores'));
+  const userInfo = `${name} in ${scenary}`;
 
-            fetch('https://phoenix-game.vercel.app/api/save-results', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ userInfo, scores })
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok ' + response.statusText);
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log(data.message);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        });
+  const scores = JSON.parse(localStorage.getItem('scores'));
+
+  fetch('https://phoenix-game.vercel.app/api/save-results', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ userInfo, scores }),
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log(data.message);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+});
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
