@@ -43,69 +43,65 @@
     <script src="frontend.js"></script>
     <script src="charts.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-  const name = localStorage.getItem('playerName');
-  const faction = localStorage.getItem('playerFaction');
-  const scenaryIndex = {
-    'City': 'Smart City',
-    'Town': 'Post-growth City',
-    'Village': 'De-growth City'
-  };
-  const scenary = scenaryIndex[faction];
+        document.addEventListener('DOMContentLoaded', async () => {
+            const name = localStorage.getItem('playerName');
+            const faction = localStorage.getItem('playerFaction');
+            const scenaryIndex = {
+                'City': 'Smart City',
+                'Town': 'Post-growth City',
+                'Village': 'De-growth City'
+            };
+            const scenary = scenaryIndex[faction];
+            const userInfo = `${name} in ${scenary}`;
 
-  const userInfo = `${name} in ${scenary}`;
-
-  const scores = JSON.parse(localStorage.getItem('scores'));
-
-  fetch('https://phoenix-game.vercel.app/ResultsPage.html', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ userInfo, scores }),
-  })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok ' + response.statusText);
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log(data.message);
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-});
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', (event) => {
-            const ctx = document.getElementById('scoreChart').getContext('2d');
             const storedScores = localStorage.getItem('scores');
             const scores = storedScores ? JSON.parse(storedScores) : Array(16).fill(0);
-            const labels = [
-                'Habitat creation and maintenance',
-                'Pollination and dispersal of seed and other propagules',
-                'Regulation of air quality', 
-                'Regulation of climate', 
-                'Regulation of freshwater quantity, location and timing', 
-                'Regulation of freshwater and coastal water quality', 
-                'Formation, protection and decontamination of soils and sediments',
-                'Regulation of hazards and extreme events', 
-                'Regulation of detrimental organism and biological processes', 
-                'Energy', 
-                'Food and feed', 
-                'Materials and assistance', 
-                'Medicinal, biochemical and genetic resources', 
-                'Learning and inspiration', 
-                'Physical and psychological experiences', 
-                'Supporting identities'
-            ];
 
+            const data = {
+                userInfo: userInfo,
+                scores: scores
+            };
+            console.log(data)
+            try {
+                const response = await fetch('/saveResults', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to save results');
+                }
+
+                console.log('Results saved successfully');
+            } catch (error) {
+                console.error('Error saving results:', error);
+            }
+
+            const ctx = document.getElementById('scoreChart').getContext('2d');
             const scoreChart = new Chart(ctx, {
                 type: 'radar',
                 data: {
-                    labels: labels,
+                    labels: [
+                        'Habitat creation and maintenance',
+                        'Pollination and dispersal of seed and other propagules',
+                        'Regulation of air quality', 
+                        'Regulation of climate', 
+                        'Regulation of freshwater quantity, location and timing', 
+                        'Regulation of freshwater and coastal water quality', 
+                        'Formation, protection and decontamination of soils and sediments',
+                        'Regulation of hazards and extreme events', 
+                        'Regulation of detrimental organism and biological processes', 
+                        'Energy', 
+                        'Food and feed', 
+                        'Materials and assistance', 
+                        'Medicinal, biochemical and genetic resources', 
+                        'Learning and inspiration', 
+                        'Physical and psychological experiences', 
+                        'Supporting identities'
+                    ],
                     datasets: [{
                         label: 'YOUR SCORE',
                         data: scores,
