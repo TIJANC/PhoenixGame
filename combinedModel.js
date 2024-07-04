@@ -1,17 +1,10 @@
 const mongoose = require('mongoose');
 
-const combinedSchema = new mongoose.Schema(
-  {
-    userInfo: {
-      type: String,
-      required: true,
-    },
-    scores: {
-      type: [Number],
-      default: '',
-    }
-  },
-  { timestamps: true }
-);
+const combinedSchema = new mongoose.Schema({
+    userInfo: { type: String },
+    scores: { type: Array }
+});
 
-module.exports = mongoose.model('Combined', combinedSchema);
+const Combined = mongoose.model('Combined', combinedSchema);
+
+module.exports = Combined;
