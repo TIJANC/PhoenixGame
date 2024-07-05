@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Results</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+        }
+        .chart-container {
+            width: 80%;
+            margin: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+        canvas {
+            max-width: 100%;
+            max-height: 100%;
+            height: auto;
+            width: auto;
+        }
+        @media (max-width: 768px) {
+            .chart-container {
+                width: 100%;
+            }
+            canvas {
+                max-width: 100%;
+            }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="chart-container">
+        <canvas id="scoreChart"></canvas>
+    </div>
+    <script src="frontend.js"></script>
+    <script src="charts.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const name = localStorage.getItem('playerName');
+            const faction = localStorage.getItem('playerFaction');
+            const scenaryIndex = {
+                'City': 'Smart City',
+                'Town': 'Post-growth City',
+                'Village': 'De-growth City'
+            };
+            const scenary = scenaryIndex[faction];
+            const userInfo = `${name} in ${scenary}`;
+
+            const storedScores = localStorage.getItem('scores');
+            const scores = storedScores ? JSON.parse(storedScores) : Array(16).fill(0);
+
+            const data = {
+                userInfo: userInfo,
+                scores: scores
+            };
+            console.log(data)
+            try {
+                const response = await fetch('/saveResults', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to save results');
+                }
+
+                console.log('Results saved successfully');
+            } catch (error) {
+                console.error('Error saving results:', error);
+            }
+
+            const ctx = document.getElementById('scoreChart').getContext('2d');
+            const scoreChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: [
+                        'Habitat creation and maintenance',
+                        'Pollination and dispersal of seed and other propagules',
+                        'Regulation of air quality', 
+                        'Regulation of climate', 
+                        'Regulation of freshwater quantity, location and timing', 
+                        'Regulation of freshwater and coastal water quality', 
+                        'Formation, protection and decontamination of soils and sediments',
+                        'Regulation of hazards and extreme events', 
+                        'Regulation of detrimental organism and biological processes', 
+                        'Energy', 
+                        'Food and feed', 
+                        'Materials and assistance', 
+                        'Medicinal, biochemical and genetic resources', 
+                        'Learning and inspiration', 
+                        'Physical and psychological experiences', 
+                        'Supporting identities'
+                    ],
+                    datasets: [{
+                        label: 'YOUR SCORE',
+                        data: scores,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true, 
+                    scales: {
+                        r: {
+                            angleLines: {
+                                display: false
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 100
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
