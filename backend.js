@@ -21,7 +21,7 @@ app.use(cors());
 const PORT = process.env.PORT || 3000;
 
 // Route to handle POST request
-app.post('https://phoenix-game.vercel.app/saveResults', async (req, res) => {
+app.post('/saveResults', async (req, res) => {
     const newCombined = new Combined({
         userInfo: req.body.userInfo,
         scores: req.body.scores,
