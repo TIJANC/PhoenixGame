@@ -77,8 +77,8 @@ select {
 }
 
 canvas {
-    width: 100%;
-    height: 60%; 
+    width: auto;
+    height: auto; 
     background-color: #000; 
 }
 
@@ -106,6 +106,11 @@ canvas {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.card.disabled {
+    opacity: 0.5; 
+    pointer-events: none; 
 }
 
 .modal {
@@ -155,6 +160,7 @@ canvas {
     color: white;
     border-radius: 5px;
     text-align: center;
+    justify-content: center;
 }
 
 .score-value {
@@ -184,6 +190,9 @@ canvas {
     transition: opacity 0.3s;
     margin-top: 10px; 
     box-sizing: border-box; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 
@@ -201,6 +210,7 @@ canvas {
 }
 
 @media (max-height: 1334px) {
+
     body, html {
         margin: 0;
         padding: 0;
@@ -260,6 +270,10 @@ canvas {
     font-size: 0.8em;
     }
 
+    #scoreIndicators{
+    justify-content: center;
+    }
+
     .container {
         display: flex;
         flex-direction: column;
@@ -295,11 +309,28 @@ canvas {
     .score-indicator {
         position: relative;
         display: inline-block;
-        margin: 4px;
-        padding: 4px;
+        margin: 5px;
+        padding: 10px;
+        width: calc(7%); /* Ensure 8 items per row */
+        background-color: #4CAF50;
         color: white;
-        border-radius: 3px;
+        border-radius: 5px;
         text-align: center;
+    }
+
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 1.2rem;
+    }
+
+    .text, .instructions {
+        font-size: 0.9rem;
     }
 
 }

@@ -9,39 +9,109 @@
             margin: 0;
             padding: 0;
             height: 100%;
-            width: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
         }
-        .chart-container {
-            width: 80%;
-            margin: auto;
+        .score-container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .score-item {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            height: 100%;
+            margin-bottom: 10px;
         }
-        canvas {
-            max-width: 100%;
-            max-height: 100%;
-            height: auto;
-            width: auto;
+        .score-label {
+            flex: 1;
+            font-weight: bold;
+        }
+        .score-value {
+            width: 60px;
+            text-align: center;
+            font-size: 1.2em;
+            color: #333;
         }
         @media (max-width: 768px) {
-            .chart-container {
-                width: 100%;
-            }
-            canvas {
-                max-width: 100%;
+            .score-container {
+                width: 90%;
             }
         }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <div class="chart-container">
-        <canvas id="scoreChart"></canvas>
+    <div class="score-container">
+        <h1>Game Results</h1>
+        <div class="score-item">
+            <span class="score-label">Habitat creation and maintenance</span>
+            <span class="score-value" id="score1">0</span>
+        </div>
+        <div class="score-item">
+            <span class="score-label">Pollination and dispersal of seed and other propagules</span>
+            <span class="score-value" id="score2">0</span>
+        </div>
+        <div class="score-item">
+            <span class="score-label">Regulation of air quality</span>
+            <span class="score-value" id="score3">0</span>
+        </div>
+        <div class="score-item">
+            <span class="score-label">Regulation of climate</span>
+            <span class="score-value" id="score4">0</span>
+        </div>
+        <div class="score-item">
+            <span class="score-label">Regulation of freshwater quantity, location and timing</span>
+            <span class="score-value" id="score5">0</span>
+        </div>
+        <div class="score-item">
+            <span class="score-label">Regulation of freshwater and coastal water quality</span>
+            <span class="score-value" id="score6">0</span>
+        </div>
+        <div class="score-item">
+            <span class="score-label">Formation, protection and decontamination of soils and sediments</span>
+            <span class="score-value" id="score7">0</span>
+        </div>
+        <div class="score-item">
+            <span class="score-label">Regulation of hazards and extreme events</span>
+            <span class="score-value" id="score8">0</span>
+        </div>
+        <div class="score-item">
+            <span class="score-label">Regulation of detrimental organism and biological processes</span>
+            <span class="score-value" id="score9">0</span>
+        </div>
+        <div class="score-item">
+            <span class="score-label">Energy</span>
+            <span class="score-value" id="score10">0</span>
+        </div>
+        <div class="score-item">
+            <span class="score-label">Food and feed</span>
+            <span class="score-value" id="score11">0</span>
+        </div>
+        <div class="score-item">
+            <span class="score-label">Materials and assistance</span>
+            <span class="score-value" id="score12">0</span>
+        </div>
+        <div class="score-item">
+            <span class="score-label">Medicinal, biochemical and genetic resources</span>
+            <span class="score-value" id="score13">0</span>
+        </div>
+        <div class="score-item">
+            <span class="score-label">Learning and inspiration</span>
+            <span class="score-value" id="score14">0</span>
+        </div>
+        <div class="score-item">
+            <span class="score-label">Physical and psychological experiences</span>
+            <span class="score-value" id="score15">0</span>
+        </div>
+        <div class="score-item">
+            <span class="score-label">Supporting identities</span>
+            <span class="score-value" id="score16">0</span>
+        </div>
     </div>
-    <script src="frontend.js"></script>
-    <script src="charts.js"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             const name = localStorage.getItem('playerName');
@@ -57,11 +127,29 @@
             const storedScores = localStorage.getItem('scores');
             const scores = storedScores ? JSON.parse(storedScores) : Array(16).fill(0);
 
+            // Update score values in the DOM
+            document.getElementById('score1').textContent = scores[0];
+            document.getElementById('score2').textContent = scores[1];
+            document.getElementById('score3').textContent = scores[2];
+            document.getElementById('score4').textContent = scores[3];
+            document.getElementById('score5').textContent = scores[4];
+            document.getElementById('score6').textContent = scores[5];
+            document.getElementById('score7').textContent = scores[6];
+            document.getElementById('score8').textContent = scores[7];
+            document.getElementById('score9').textContent = scores[8];
+            document.getElementById('score10').textContent = scores[9];
+            document.getElementById('score11').textContent = scores[10];
+            document.getElementById('score12').textContent = scores[11];
+            document.getElementById('score13').textContent = scores[12];
+            document.getElementById('score14').textContent = scores[13];
+            document.getElementById('score15').textContent = scores[14];
+            document.getElementById('score16').textContent = scores[15];
+
             const data = {
                 userInfo: userInfo,
                 scores: scores
             };
-            console.log(data)
+
             try {
                 const response = await fetch('/saveResults', {
                     method: 'POST',
@@ -79,51 +167,6 @@
             } catch (error) {
                 console.error('Error saving results:', error);
             }
-
-            const ctx = document.getElementById('scoreChart').getContext('2d');
-            const scoreChart = new Chart(ctx, {
-                type: 'radar',
-                data: {
-                    labels: [
-                        'Habitat creation and maintenance',
-                        'Pollination and dispersal of seed and other propagules',
-                        'Regulation of air quality', 
-                        'Regulation of climate', 
-                        'Regulation of freshwater quantity, location and timing', 
-                        'Regulation of freshwater and coastal water quality', 
-                        'Formation, protection and decontamination of soils and sediments',
-                        'Regulation of hazards and extreme events', 
-                        'Regulation of detrimental organism and biological processes', 
-                        'Energy', 
-                        'Food and feed', 
-                        'Materials and assistance', 
-                        'Medicinal, biochemical and genetic resources', 
-                        'Learning and inspiration', 
-                        'Physical and psychological experiences', 
-                        'Supporting identities'
-                    ],
-                    datasets: [{
-                        label: 'YOUR SCORE',
-                        data: scores,
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: true, 
-                    scales: {
-                        r: {
-                            angleLines: {
-                                display: false
-                            },
-                            suggestedMin: 0,
-                            suggestedMax: 100
-                        }
-                    }
-                }
-            });
         });
     </script>
 </body>

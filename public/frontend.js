@@ -115,13 +115,45 @@ createScoreIndicators();
 
 function animate() {
     requestAnimationFrame(animate);
-    c.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+
+    // Get the natural width and height of the image
+    const imageWidth = backgroundImage.naturalWidth;
+    const imageHeight = backgroundImage.naturalHeight;
+
+    // Calculate the aspect ratio
+    const aspectRatio = imageWidth / imageHeight;
+
+    const canvasWidth = canvas.width;
+    const canvasHeight = canvas.height;
+
+    // Calculate the dimensions of the image to maintain the aspect ratio
+    let drawWidth, drawHeight;
+    if (canvasWidth / canvasHeight > aspectRatio) {
+        drawHeight = canvasHeight;
+        drawWidth = drawHeight * aspectRatio;
+    } else {
+        drawWidth = canvasWidth;
+        drawHeight = drawWidth / aspectRatio;
+    }
+
+    const drawX = (canvasWidth - drawWidth) / 2;
+    const drawY = (canvasHeight - drawHeight) / 2;
+
+    c.fillStyle = 'white';  
+    c.fillRect(0, 0, canvasWidth, canvasHeight);  
+
+    c.drawImage(backgroundImage, drawX, drawY, drawWidth, drawHeight);
 
     for (const id in frontEndPlayers) {
         const frontEndPlayer = frontEndPlayers[id];
         frontEndPlayer.draw();
     }
 }
+
+// Ensure image is loaded before starting animation
+backgroundImage.onload = function() {
+    animate();
+};
 
 window.addEventListener('keydown', (event) => {
     if (!frontEndPlayers['player']) return;
@@ -741,7 +773,7 @@ addCards();
 function checkEndGame() {
     const gameEndCondition = scores.some(score => score >= 15) && scores.every(score => score >= 0);
     if (gameEndCondition) {
-        alert('You win!'); 
+        alert('You win!🎉'); 
         window.location.href = 'ResultsPage.html';
     }
 }
@@ -772,9 +804,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         console.log('Results saved successfully');
-        // Optionally, handle success (e.g., show a success message)
     } catch (error) {
         console.error('Error saving results:', error);
-        // Handle error (e.g., show an error message to the user)
     }
 });
