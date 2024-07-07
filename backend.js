@@ -35,6 +35,17 @@ app.post('/saveResults', async (req, res) => {
     }
 });
 
+app.get('/getResults', async (req, res) => {
+    try {
+        console.log('GET request to /getResults');
+        const results = await Combined.find({}, { userInfo: 1, scores: 1, _id: 0 }); // Projecting userInfo and scores fields
+        res.status(200).json(results);
+    } catch (err) {
+        console.error('Error fetching results:', err);
+        res.status(500).send('Error fetching results from database');
+    }
+});
+
 server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

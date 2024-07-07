@@ -777,34 +777,3 @@ function checkEndGame() {
         window.location.href = 'ResultsPage.html';
     }
 }
-
-document.addEventListener('DOMContentLoaded', async () => {
-    const name = localStorage.getItem('playerName');
-    const faction = localStorage.getItem('playerFaction');
-    const storedScores = localStorage.getItem('scores');
-    const scores = storedScores ? JSON.parse(storedScores) : Array(16).fill(0);
-
-    const data = {
-        name: name,
-        faction: faction,
-        scores: scores
-    };
-
-    try {
-        const response = await fetch('/api/saveResults', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to save results');
-        }
-
-        console.log('Results saved successfully');
-    } catch (error) {
-        console.error('Error saving results:', error);
-    }
-});
