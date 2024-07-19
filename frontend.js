@@ -741,7 +741,9 @@ addCards();
 function checkEndGame() {
     const gameEndCondition = scores.some(score => score >= 15) && scores.every(score => score >= 0);
     if (gameEndCondition) {
-        alert('You win!'); 
+        setTimeout(() => {        
+        alert('You win!🎉'); 
         window.location.href = 'ResultsPage.html';
+        }, 1500);
     }
 }
